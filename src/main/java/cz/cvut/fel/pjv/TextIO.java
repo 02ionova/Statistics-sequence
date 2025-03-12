@@ -30,7 +30,6 @@ public final class TextIO {
             Integer.parseInt(s);
         } catch (NumberFormatException e) {
             ret = false;
-
         }
         return ret;
     }
@@ -50,4 +49,13 @@ public final class TextIO {
         }
         return ret;
     }
-} 
+
+    /**
+     * Read all lines from standard input
+     *
+     * @return array of strings representing input lines
+     */
+    public String[] readAllLines() {
+        return scanner.useDelimiter("\\A").next().split("\\R");
+    }
+}
