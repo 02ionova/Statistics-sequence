@@ -9,18 +9,20 @@ public class Stats implements StatsInterface {
 
     @Override
     public void addNumber(double number) {
-        if (numbers.size() >= 10) {  // Сбрасываем статистику после 10-го элемента
-            numbers.clear();
-        }
         numbers.add(number);
+
+        if (numbers.size() == 11) { // Очищаем только после 11-го элемента
+            numbers.remove(0); // Удаляем самый старый элемент, а не очищаем весь список
+        }
     }
+
     @Override
-    public int getCount() {  // Добавлен метод getCount()
+    public int getCount() {
         return numbers.size();
     }
 
     @Override
-    public double getAverage() {  // Переименован в соответствии с интерфейсом
+    public double getAverage() {
         if (numbers.isEmpty()) return 0;
         double sum = 0;
         for (double num : numbers) {
@@ -33,18 +35,18 @@ public class Stats implements StatsInterface {
     public double getStandardDeviation() {
         if (numbers.size() < 2) return 0;
 
-        double mean = getAverage(); // Используем getAverage()
+        double mean = getAverage();
         double sumSquaredDifferences = 0;
 
         for (double num : numbers) {
             sumSquaredDifferences += Math.pow(num - mean, 2);
         }
 
-        return Math.sqrt(sumSquaredDifferences / (numbers.size() - 1));
+        return Math.sqrt(sumSquaredDifferences / (numbers.size() - 1)); // Должно быть N-1
     }
 
     @Override
     public String getFormattedStatistics() {
-        return String.format("%d %.3f %.3f", numbers.size(), getAverage(), getStandardDeviation());
+        return String.format("%2d %.3f %.3f", getCount(), getAverage(), getStandardDeviation());
     }
 }
