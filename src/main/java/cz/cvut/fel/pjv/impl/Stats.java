@@ -14,10 +14,14 @@ public class Stats implements StatsInterface {
         }
         numbers.add(number);
     }
+    @Override
+    public int getCount() {  // Добавлен метод getCount()
+        return numbers.size();
+    }
 
     @Override
-    public double getAverage() {
-        if (numbers.isEmpty()) return 0.0;
+    public double getAverage() {  // Переименован в соответствии с интерфейсом
+        if (numbers.isEmpty()) return 0;
         double sum = 0;
         for (double num : numbers) {
             sum += num;
@@ -27,27 +31,20 @@ public class Stats implements StatsInterface {
 
     @Override
     public double getStandardDeviation() {
-        int n = numbers.size();
-        if (n < 2) return 0.0;
+        if (numbers.size() < 2) return 0;
 
-        double mean = getAverage();
-        double sumSquaredDiffs = 0;
+        double mean = getAverage(); // Используем getAverage()
+        double sumSquaredDifferences = 0;
+
         for (double num : numbers) {
-            sumSquaredDiffs += Math.pow(num - mean, 2);
+            sumSquaredDifferences += Math.pow(num - mean, 2);
         }
-        return Math.sqrt(sumSquaredDiffs / n);
-    }
 
-    @Override
-    public int getCount() {
-        return numbers.size();
+        return Math.sqrt(sumSquaredDifferences / (numbers.size() - 1));
     }
 
     @Override
     public String getFormattedStatistics() {
-        int count = getCount();
-        double mean = getAverage();
-        double stddev = getStandardDeviation();
-        return String.format(" %d %.3f %.3f", count, mean, stddev);
+        return String.format("%d %.3f %.3f", numbers.size(), getAverage(), getStandardDeviation());
     }
 }
